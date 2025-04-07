@@ -55,16 +55,9 @@ const RegisterForm = () => {
     }
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "phones",
-  });
-
-  const [mainPhoneIndex, setMainPhoneIndex] = useState(0);
-
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     console.log("Submitted values:", values);
-    alert("בדיקה: הנתונים נשלחו לקונסול ✅");
+    alert("Form submitted successfully!");
   };
 
   return (

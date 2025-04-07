@@ -4,6 +4,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { PhoneFields } from "./PhoneField";
+import { HmoCarousel } from "./HmoCarousel";
 
 
 import {
@@ -16,6 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+
 
 const phoneSchema = z.object({
     prefix: z.enum([
@@ -30,13 +33,19 @@ const formSchema = z.object({
   id: z.string().regex(/^\d{9}$/, "Israeli ID must be exactly 9 digits"),
   firstName: z.string().min(2, "First name is required"),
   lastName: z.string().min(2, "Last name is required"),
+  hmo: z.enum(["Clalit", "Maccabi", "Mehuedet", "Leumit"], {
+    required_error: "יש לבחור קופת חולים",
+  }),
   phones: z.array(phoneSchema).min(1, "Has to have at least one phone"),
 });
 
+
+
 const RegisterForm = () => {
   const israelPrefixes = [
-    "050", "051", "052", "053", "054", "055", "056", "057", "058", "059",
+    "050", "051", "052", "053", "054", "055", "056", "057", "058", "059","02","03","04","08","09"
   ];
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,6 +53,7 @@ const RegisterForm = () => {
         id: "",
         firstName: "",
         lastName: "",
+        hmo: "Clalit",
         phones: [
           {
             prefix: "050",  
@@ -61,17 +71,17 @@ const RegisterForm = () => {
   };
 
   return (
-    <Form {...form}>
+    <Form {...form} >
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="mx-auto w-[480px] space-y-6 rounded-lg border bg-gray-300 p-6 shadow-md text-end flex flex-col gap-6"
+        className="mx-auto w-[480px] space-y-6 rounded-lg border bg-gray-300 p-6 shadow-md  flex flex-col gap-6"
       >
         <FormField
           control={form.control}
           name="id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>תעודת זהות / ID</FormLabel>
+              <FormLabel><h3 className="font-bold text-lg  mb-2">תעודת זהות / ID</h3></FormLabel>
               <FormControl>
                 <Input
                   placeholder=".אנא הכנס את מספר תעודת הזהות שלך כאן"
@@ -88,7 +98,7 @@ const RegisterForm = () => {
           name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>שם פרטי</FormLabel>
+              <FormLabel><h3 className="font-bold text-lg  mb-2">שם פרטי / First Name</h3></FormLabel>
               <FormControl>
                 <Input placeholder="אנא הכנס את שמך הפרטי" {...field} />
               </FormControl>
@@ -101,8 +111,8 @@ const RegisterForm = () => {
           control={form.control}
           name="lastName"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>שם משפחה</FormLabel>
+            <FormItem className="text-end">
+              <FormLabel><h3 className="font-bold text-lg mb-2">שם משפחה / Last Name</h3></FormLabel>
               <FormControl>
                 <Input placeholder="אנא הכנס את שם המשפחה" {...field} />
               </FormControl>
@@ -110,10 +120,17 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
+
+         <HmoCarousel 
+         onSelect={
+          (value) => form.setValue("hmo", value)
+        } 
+         />
          <PhoneFields form={form} />
          <Button>הרשם</Button>
       </form>
     </Form>
+    
   );
 };
 

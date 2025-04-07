@@ -39,11 +39,12 @@ export const PhoneFields = ({ form }: PhoneFormProps) => {
   const [mainPhoneIndex, setMainPhoneIndex] = useState(0)
 
   return (
-    <div className="space-y-2">
-      <h3 className="font-bold text-lg  mb-2">מספרי טלפון</h3>
+    <div className="space-y-2 ">
+      <h3 className="font-bold text-lg  mb-3">מספרי טלפון / Phone number</h3>
+      <h1 className="text-gray-500 text-sm  mb-3">.יש להזין לפחות מספר אחד</h1>
 
       {fields.map((field, index) => (
-        <div key={field.id} className="grid grid-cols-6 gap-4 bg-gray-300  p-3 rounded-md shadow-md text-end">
+        <div key={field.id} className="grid grid-cols-6 gap-2 bg-gray-300  p-3 rounded-md shadow-md text-end">
           <FormField
             control={form.control}
             name={`phones.${index}.prefix`}

@@ -46,9 +46,9 @@ const RegisterForm = () => {
         lastName: "",
         phones: [
           {
-            prefix: "03",  // for home? or "050" if mobile by default
+            prefix: "050",  
             number: "",
-            type: "mobile", // or "home" if you want home as the default
+            type: "mobile", 
             isMain: true,
           }
         ],

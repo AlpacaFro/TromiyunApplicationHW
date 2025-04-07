@@ -12,6 +12,13 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
+type Phone = {
+  prefix: string
+  number: string
+  type: "mobile" | "home" | "work"
+  isMain: boolean
+}
+
 type PhoneFormProps = {
   form: UseFormReturn<any>  
 }
@@ -19,7 +26,7 @@ type PhoneFormProps = {
 
 
 export const PhoneFields = ({ form }: PhoneFormProps) => {
-    const phonestyle ="border border-black text-white"
+    const phonestyle ="border border-black"
   const israelPrefixes = [
     "050", "051", "052", "053", "054", "055", "056", "057", "058", "059", "02", "03", "04", "08", "09"
   ]
@@ -36,7 +43,7 @@ export const PhoneFields = ({ form }: PhoneFormProps) => {
       <h3 className="font-bold text-lg  mb-2">מספרי טלפון</h3>
 
       {fields.map((field, index) => (
-        <div key={field.id} className="grid grid-cols-6 gap-4 bg-gray-500 border p-3 rounded-md">
+        <div key={field.id} className="grid grid-cols-6 gap-4 bg-gray-300  p-3 rounded-md shadow-md text-end">
           <FormField
             control={form.control}
             name={`phones.${index}.prefix`}
@@ -100,7 +107,7 @@ export const PhoneFields = ({ form }: PhoneFormProps) => {
                 checked={mainPhoneIndex === index}
                 onChange={() => {
                   setMainPhoneIndex(index)
-                  const updated = form.getValues("phones").map((p, i) => ({
+                  const updated = form.getValues("phones").map((p: Phone, i: number): Phone => ({
                     ...p,
                     isMain: i === index,
                   }))
@@ -118,9 +125,9 @@ export const PhoneFields = ({ form }: PhoneFormProps) => {
 
       <Button
         type="button"
-        variant="outline"
+        variant="ghost"
         size="icon"
-        className="bg-black"
+        className="bg-gray-300"
         onClick={() =>
           append({
             prefix: "050",
@@ -130,7 +137,7 @@ export const PhoneFields = ({ form }: PhoneFormProps) => {
           })
         }
       >
-        <CirclePlus color="#fffffa" />
+        <CirclePlus color="#5D3FD3" />
       </Button>
     </div>
   )

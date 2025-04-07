@@ -18,13 +18,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const phoneSchema = z.object({
-  prefix: z.enum([
-    "050", "051", "052", "053", "054", "055", "056", "057", "058", "059",
-  ]),
-  number: z.string().regex(/^\d{7}$/, "Must be exactly 7 digits"),
-  type: z.enum(["mobile", "home", "work"]),
-  isMain: z.boolean(),
-});
+    prefix: z.enum([
+      "050", "051", "052", "053", "054", "055", "056", "057", "058", "059",
+    ]),
+    number: z.string().regex(/^\d{7}$/, "Must be exactly 7 digits"),
+    type: z.enum(["mobile", "home", "work"]),
+    isMain: z.boolean(),
+  });
 
 const formSchema = z.object({
   id: z.string().regex(/^\d{9}$/, "Israeli ID must be exactly 9 digits"),

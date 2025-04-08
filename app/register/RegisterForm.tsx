@@ -5,8 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { PhoneFields } from "./PhoneField";
 import { HmoCarousel } from "./HmoCarousel";
-
-
+import { AddressFields } from "./AddressFields";
 import {
   Form,
   FormField,
@@ -19,24 +18,33 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 
-
+//Schemas
 const phoneSchema = z.object({
     prefix: z.enum([
       "050", "051", "052", "053", "054", "055", "056", "057", "058", "059",
     ]),
-    number: z.string().regex(/^\d{7}$/, "Must be exactly 7 digits"),
+    number: z.string().regex(/^\d{7}$/, "Must be 7 digits"),
     type: z.enum(["mobile", "home", "work"]),
     isMain: z.boolean(),
   });
 
+const addressSchema = z.object({
+    city: z.string().min(1, " Provide a City"),
+    streetCode: z.string().min(1, "Provide street address"),
+    number: z.string().min(1, "Provide House Number"),
+    type: z.enum(["home", "work", "other"]),
+    comments: z.string().optional(),
+  })
+
 const formSchema = z.object({
   id: z.string().regex(/^\d{9}$/, "Israeli ID must be exactly 9 digits"),
-  firstName: z.string().min(2, "First name is required"),
-  lastName: z.string().min(2, "Last name is required"),
+  firstName: z.string().min(2, "First name required"),
+  lastName: z.string().min(2, "Last name required"),
   hmo: z.enum(["Clalit", "Maccabi", "Mehuedet", "Leumit"], {
-    required_error: "יש לבחור קופת חולים",
+    required_error: "HMO hasn't picked yet",
   }),
-  phones: z.array(phoneSchema).min(1, "Has to have at least one phone"),
+  phones: z.array(phoneSchema).min(1, "Phone number is required"),
+  addresses: z.array(addressSchema).min(1, "An Adress is required"),
 });
 
 
@@ -62,6 +70,15 @@ const RegisterForm = () => {
             isMain: true,
           }
         ],
+        addresses:[
+          {
+            city:"971",
+            streetCode:"55264",
+            number:"34",
+            type:"work",
+            comments:"IITC-College",
+          }
+        ]
     }
   });
 
@@ -126,8 +143,12 @@ const RegisterForm = () => {
           (value) => form.setValue("hmo", value)
         } 
          />
+
          <PhoneFields form={form} />
-         <Button>הרשם</Button>
+
+         <AddressFields form={form}/>
+         
+         <Button>הרשם/ sign up</Button>
       </form>
     </Form>
     

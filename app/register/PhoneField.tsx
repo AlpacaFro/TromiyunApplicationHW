@@ -44,7 +44,7 @@ export const PhoneFields = ({ form }: PhoneFormProps) => {
       <h1 className="text-gray-500 text-sm  mb-3">.יש להזין לפחות מספר אחד</h1>
 
       {fields.map((field, index) => (
-        <div key={field.id} className="grid grid-cols-6 gap-2 bg-gray-300  p-3 rounded-md shadow-md text-end">
+        <div key={field.id} className="grid grid-cols-6 grid-rows-2 gap-2 bg-gray-300  p-3 rounded-md shadow-md text-end">
           <FormField
             control={form.control}
             name={`phones.${index}.prefix`}
@@ -52,7 +52,7 @@ export const PhoneFields = ({ form }: PhoneFormProps) => {
               <FormItem>
                 <FormLabel>קידומת</FormLabel>
                 <FormControl>
-                  <select {...field} className="border border-black rounded p-1">
+                  <select {...field} className="border border-black rounded p-1  col-span-1">
                     {israelPrefixes.map((prefix) => (
                       <option key={prefix} value={prefix}
                       className={phonestyle}>
@@ -88,10 +88,10 @@ export const PhoneFields = ({ form }: PhoneFormProps) => {
               <FormItem>
                 <FormLabel>סוג</FormLabel>
                 <FormControl>
-                  <select {...field} className="border border-black rounded-lg p-1">
-                    <option value="mobile">נייד</option>
-                    <option value="home">בית</option>
-                    <option value="work">עבודה</option>
+                  <select {...field} className="border border-black rounded-lg p-1 col-span-1     ">
+                    <option value="mobile">נייד / Mobile</option>
+                    <option value="home">בית / Home</option>
+                    <option value="work">עבודה / Work</option>
                   </select>
                 </FormControl>
                 <FormMessage />
@@ -99,28 +99,30 @@ export const PhoneFields = ({ form }: PhoneFormProps) => {
             )}
           />
 
-          <FormItem>
-            <FormLabel>ראשי</FormLabel>
-            <FormControl>
-              <input
-                type="radio"
-                name="mainPhone"
-                checked={mainPhoneIndex === index}
-                onChange={() => {
-                  setMainPhoneIndex(index)
-                  const updated = form.getValues("phones").map((p: Phone, i: number): Phone => ({
-                    ...p,
-                    isMain: i === index,
-                  }))
-                  form.setValue("phones", updated)
-                }}
-              />
-            </FormControl>
-          </FormItem>
-
-          <Button variant="destructive" type="button" onClick={() => remove(index)}>
+          <Button className="col-span-1 row-start-2 text-end" variant="destructive" type="button" onClick={() => remove(index)}>
             הסר
           </Button>
+
+          <FormItem className="col-span-1 row-start-2">
+            <FormLabel>ראשי</FormLabel>
+            <FormControl>
+              <div className="flex items-center h-full">
+                <input
+                  type="radio"
+                  name="mainPhone"
+                  checked={mainPhoneIndex === index}
+                  onChange={() => {
+                    setMainPhoneIndex(index)
+                    const updated = form.getValues("phones").map((p: Phone, i: number): Phone => ({
+                      ...p,
+                      isMain: i === index,
+                    }))
+                    form.setValue("phones", updated)
+                  }}
+                />
+              </div>
+            </FormControl>
+          </FormItem>
         </div>
       ))}
 

@@ -5,9 +5,9 @@ import React from 'react'
 
 const RegisterPage = () => {
   return (
-    <main className='flex flex-col items-center  bg-gray-100 '>
+    <main className='flex flex-col items-center  '>
       <h1
-      className='my-10 transition-all duration-300 hover:tracking-widest text-4xl font-bold text-gray-800'
+      className='my-10 transition-all duration-300 hover:tracking-widest text-4xl font-bold text-gray-200 hover:-translate-60 -translate-0'
       >Patient APP
       </h1>
       <Link

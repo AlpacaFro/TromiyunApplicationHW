@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   try {
     const res = await axios.get(apiUrl)
 
-    console.log("response", res.data.result?.records?.length, "streets found")
+    
 
     const records = res.data.result.records.map((r: any) => ({
       label: r["שם_רחוב"],

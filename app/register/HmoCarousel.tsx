@@ -33,7 +33,6 @@ export function HmoCarousel({ onSelect }: HmoCarouselProps) {
       const index = api.selectedScrollSnap()
       const selected = hmos[index]?.name
       if (selected) {
-        console.log("Carousel selected HMO:", selected)
         onSelect(selected)
       }
     }

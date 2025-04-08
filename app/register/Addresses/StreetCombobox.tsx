@@ -45,7 +45,6 @@ export function StreetCombobox({ form, index, cityId }: StreetComboboxProps) {
       try {
         const res = await fetch(url)
         const data = await res.json()
-        console.log("Response data:", data)
 
         if (Array.isArray(data)) {
           setOptions(data)

@@ -61,7 +61,6 @@ const RegisterForm = () => {
       })
   
       alert("Form submitted successfully!")
-      console.log("Proxy response:", res.data)
     } catch (err) {
       console.error("Proxy send failed:", err)
       alert("Failed to submit form")

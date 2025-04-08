@@ -1,4 +1,5 @@
 "use client"
+
 import { CityCombobox } from "./Addresses/CityComboBox"
 import { StreetCombobox } from "./Addresses/StreetCombobox"
 import { UseFormReturn, useFieldArray } from "react-hook-form"
@@ -24,7 +25,7 @@ export function AddressFields({ form }: AddressFieldsProps) {
 
   return (
     <div className="space-y-6">
-      <h3 className="font-bold text-lg">כתובת / Address</h3>
+      <h3 className="font-bold text-lg">כתובת</h3>
 
       {fields.map((field, index) => {
         const cityId = form.watch(`addresses.${index}.city`)
@@ -34,30 +35,28 @@ export function AddressFields({ form }: AddressFieldsProps) {
             key={field.id}
             className="grid grid-cols-4 grid-rows-3 gap-4 p-4 border rounded-md"
           >
-            {/* עיר */}
             <div className="col-span-2">
               <CityCombobox form={form} index={index} />
             </div>
 
-            {/* רחוב */}
             <div className="col-span-2">
               {cityId ? (
                 <StreetCombobox form={form} index={index} cityId={cityId} />
               ) : (
                 <div className="text-sm text-muted-foreground mt-7">
-                  נא לבחור עיר לפני בחירת רחוב
+                  יש לבחור עיר קודם
+                  <br />
                 </div>
               )}
             </div>
 
-            {/* מספר בית */}
             <div>
               <FormField
                 control={form.control}
                 name={`addresses.${index}.number`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>מספר בית</FormLabel>
+                    <FormLabel>מס' בית</FormLabel>
                     <FormControl>
                       <Input placeholder="34" {...field} />
                     </FormControl>
@@ -67,7 +66,6 @@ export function AddressFields({ form }: AddressFieldsProps) {
               />
             </div>
 
-            {/* סוג כתובת */}
             <div>
               <FormField
                 control={form.control}
@@ -80,9 +78,9 @@ export function AddressFields({ form }: AddressFieldsProps) {
                         {...field}
                         className="w-full border rounded px-2 py-1 bg-white"
                       >
-                        <option value="work">עבודה / Work</option>
-                        <option value="home">בית / Home</option>
-                        <option value="other">אחר / Other</option>
+                        <option value="work">בית</option>
+                        <option value="home">עבודה</option>
+                        <option value="other">אחר</option>
                       </select>
                     </FormControl>
                     <FormMessage />
@@ -91,7 +89,6 @@ export function AddressFields({ form }: AddressFieldsProps) {
               />
             </div>
 
-            {/* הערות */}
             <div className="row-start-3 col-span-3">
               <FormField
                 control={form.control}
@@ -100,7 +97,7 @@ export function AddressFields({ form }: AddressFieldsProps) {
                   <FormItem>
                     <FormLabel>הערות</FormLabel>
                     <FormControl>
-                      <Input placeholder="הכנס הערות" {...field} />
+                      <Input placeholder="...א' , בית קרקע" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -108,21 +105,24 @@ export function AddressFields({ form }: AddressFieldsProps) {
               />
             </div>
 
-            {/* כפתור הסרה */}
-            <div className="col-span-1 row-start-3 mt-5 text-end">
-              <Button
-                type="button"
-                variant="destructive"
-                onClick={() => remove(index)}
-              >
-                הסר כתובת
-              </Button>
-            </div>
+            {fields.length > 1 ? (
+              <div className="col-span-1 row-start-3 mt-5 text-end">
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => remove(index)}
+                >
+                  הסר כתובת
+                </Button>
+              </div>
+            ) : (
+              <div className="col-span-1 row-start-3 mt-5 text-end">
+              </div>
+            )}
           </div>
         )
       })}
 
-      {/* כפתור הוספת כתובת */}
       <Button
         type="button"
         variant="outline"
@@ -136,7 +136,7 @@ export function AddressFields({ form }: AddressFieldsProps) {
           })
         }
       >
-        הוסף כתובת נוספת
+        הוסף כתובת
       </Button>
     </div>
   )

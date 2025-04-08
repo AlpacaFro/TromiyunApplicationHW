@@ -32,32 +32,28 @@ export function StreetCombobox({ form, index, cityId }: StreetComboboxProps) {
   const fieldName = `addresses.${index}.streetCode`
 
   useEffect(() => {
-    console.log("🧠 useEffect Triggered!")
-    console.log("🔍 Current query:", query)
-    console.log("🏙️ Current cityId:", cityId)
 
     if (!cityId || query.length < 2) {
-      console.log("❌ Skipping fetch: cityId missing or query too short")
       setOptions([])
       return
     }
 
     const fetchStreets = async () => {
       const url = `/api/streets?q=${encodeURIComponent(query)}&city=${cityId}`
-      console.log("🌐 Fetching streets from:", url)
+      
 
       try {
         const res = await fetch(url)
         const data = await res.json()
-        console.log("✅ Response data:", data)
+        console.log("Response data:", data)
 
         if (Array.isArray(data)) {
           setOptions(data)
         } else {
-          console.warn("⚠️ Unexpected response structure:", data)
+          console.warn("Unexpected response structure:", data)
         }
       } catch (error) {
-        console.error("❌ Failed to fetch streets:", error)
+        console.error("Failed to fetch streets:", error)
       }
     }
 

@@ -1,7 +1,9 @@
 "use client";
 
+import axios from "axios"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {z} from "zod";
 import { useState } from "react";
 import { PhoneFields } from "./PhoneField";
 import { HmoCarousel } from "./HmoCarousel";
@@ -37,21 +39,35 @@ const RegisterForm = () => {
       ],
       addresses: [
         {
-          city: "971",
-          streetCode: "55264",
-          number: "34",
-          type: "work",
-          comments: "IITC-College",
+          city: "",
+          streetCode: "",
+          number: "",
+          type: "home",
+          comments: "",
         },
       ],
     },
   });
 
-  const handleSubmit = (values: RegisterFormData) => {
-    console.log("Submitted values:", values);
-    alert("Form submitted successfully!");
-  };
-
+ 
+  const handleSubmit = async (values: z.infer<typeof registerSchema>) => {
+    console.log("JSON respond:", JSON.stringify(values, null, 2))
+  
+    try {
+      const res = await axios.post("/api/submit", values, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+  
+      alert("Form submitted successfully!")
+      console.log("Proxy response:", res.data)
+    } catch (err) {
+      console.error("Proxy send failed:", err)
+      alert("Failed to submit form")
+    }
+  }
+  
   return (
     <Form {...form}>
       <form
@@ -64,7 +80,7 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                <h3 className="font-bold text-lg mb-2">תעודת זהות / ID</h3>
+                <h3 className="font-bold text-lg mb-2">תעודת זהות</h3>
               </FormLabel>
               <FormControl>
                 <Input
@@ -83,7 +99,7 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                <h3 className="font-bold text-lg mb-2">שם פרטי / First Name</h3>
+                <h3 className="font-bold text-lg mb-2">שם פרטי</h3>
               </FormLabel>
               <FormControl>
                 <Input placeholder="אנא הכנס את שמך הפרטי" {...field} />
@@ -99,7 +115,7 @@ const RegisterForm = () => {
           render={({ field }) => (
             <FormItem className="text-end">
               <FormLabel>
-                <h3 className="font-bold text-lg mb-2">שם משפחה / Last Name</h3>
+                <h3 className="font-bold text-lg mb-2">שם משפחה</h3>
               </FormLabel>
               <FormControl>
                 <Input placeholder="אנא הכנס את שם המשפחה" {...field} />
@@ -109,13 +125,13 @@ const RegisterForm = () => {
           )}
         />
 
-        <HmoCarousel onSelect={(value) => form.setValue("hmo", value)} />
-
         <PhoneFields form={form} />
 
         <AddressFields form={form} />
 
-        <Button>הרשם/ sign up</Button>
+        <HmoCarousel onSelect={(value) => form.setValue("hmo", value)} />
+
+        <Button>הרשם</Button>
       </form>
     </Form>
   );

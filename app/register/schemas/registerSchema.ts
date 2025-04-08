@@ -8,12 +8,12 @@ export const phoneSchema = z.object({
 })
 
 export const addressSchema = z.object({
-  city: z.string().min(1),
-  streetCode: z.string(),
-  number: z.string(),
-  type: z.enum(["home", "work", "other"]),
-  comments: z.string().optional(),
-})
+    city: z.string().min(1, "עיר"),
+    streetCode: z.string().min(1, "שם רחוב"),
+    number: z.string().regex(/^\d{1,3}$/, "יכול להכיל 3 ספרות בלבד"),
+    type: z.enum(["home", "work", "other"]),
+    comments: z.string().optional(),
+  })
 
 export const registerSchema = z.object({
   id: z.string().length(9),
@@ -23,3 +23,4 @@ export const registerSchema = z.object({
   phones: z.array(phoneSchema),
   addresses: z.array(addressSchema),
 })
+
